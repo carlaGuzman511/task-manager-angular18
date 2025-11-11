@@ -1,0 +1,194 @@
+<div class="dashboard">
+  <app-statistics-panel />
+  
+  <div class="search-section">
+    <input
+      type="text"
+      placeholder="Search tasks..."
+      class="search-input"
+      (input)="onSearchChange($any($event.target).value)"
+    />
+  </div>
+
+  <div class="kanban-board" cdkDropListGroup>
+    <div class="kanban-column">
+      <div class="column-header">
+        <h3>To Do</h3>
+        <span class="task-count">{{ todoTasks().length }}</span>
+      </div>
+      <div
+        id="todo-list"
+        cdkDropList
+        [cdkDropListData]="todoTasks()"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        @for (task of todoTasks(); track task.id) {
+          <app-task-card
+            [task]="task"
+            (statusChange)="onTaskStatusChange(task.id, $event)"
+            cdkDrag
+          />
+        }
+        
+        <button class="add-task-btn" (click)="openAddTaskModal()">
+          + Add Task
+        </button>
+      </div>
+    </div>
+
+    <div class="kanban-column">
+      <div class="column-header">
+        <h3>In Progress</h3>
+        <span class="task-count">{{ inProgressTasks().length }}</span>
+      </div>
+      <div
+        id="in-progress-list"
+        cdkDropList
+        [cdkDropListData]="inProgressTasks()"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        @for (task of inProgressTasks(); track task.id) {
+          <app-task-card
+            [task]="task"
+            (statusChange)="onTaskStatusChange(task.id, $event)"
+            cdkDrag
+          />
+        }
+        
+        <button class="add-task-btn" (click)="openAddTaskModal()">
+          + Add Task
+        </button>
+      </div>
+    </div>
+
+    <div class="kanban-column">
+      <div class="column-header">
+        <h3>Review</h3>
+        <span class="task-count">{{ reviewTasks().length }}</span>
+      </div>
+      <div
+        id="review-list"
+        cdkDropList
+        [cdkDropListData]="reviewTasks()"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        @for (task of reviewTasks(); track task.id) {
+          <app-task-card
+            [task]="task"
+            (statusChange)="onTaskStatusChange(task.id, $event)"
+            cdkDrag
+          />
+        }
+        
+        <button class="add-task-btn" (click)="openAddTaskModal()">
+          + Add Task
+        </button>
+      </div>
+    </div>
+
+    <div class="kanban-column">
+      <div class="column-header">
+        <h3>Done</h3>
+        <span class="task-count">{{ doneTasks().length }}</span>
+      </div>
+      <div
+        id="done-list"
+        cdkDropList
+        [cdkDropListData]="doneTasks()"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        @for (task of doneTasks(); track task.id) {
+          <app-task-card
+            [task]="task"
+            (statusChange)="onTaskStatusChange(task.id, $event)"
+            cdkDrag
+          />
+        }
+        
+        <div class="completed-message">
+          <span class="checkmark">✓</span>
+          Well done!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (showAddTaskModal()) {
+    <div class="modal-overlay" (click)="closeAddTaskModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Add New Task</h3>
+        
+        <form [formGroup]="taskForm" (ngSubmit)="addTask()">
+          <div class="form-group">
+            <label for="title">Title *</label>
+            <input
+              id="title"
+              type="text"
+              formControlName="title"
+              placeholder="Enter task title"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              formControlName="description"
+              placeholder="Enter task description"
+              rows="3"
+            ></textarea>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="priority">Priority</label>
+              <select id="priority" formControlName="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="dueDate">Due Date *</label>
+              <input
+                id="dueDate"
+                type="date"
+                formControlName="dueDate"
+              />
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="estimatedHours">Estimated Hours</label>
+              <input
+                id="estimatedHours"
+                type="number"
+                formControlName="estimatedHours"
+                min="0"
+              />
+            </div>
+          </div>
+          
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" (click)="closeAddTaskModal()">
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              class="btn-primary"
+              [disabled]="!taskForm.valid"
+            >
+              Add Task
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
