@@ -58,7 +58,7 @@ export class TaskFacade {
   dispatch(new SetLoading({ loading: true }));
   dispatch(new ClearError());
 
-  return this.http.get<{ tasks: Task[] }>('src/assets/data/tasks.json').pipe(
+  return this.http.get<{ tasks: Task[] }>('/assets/data/tasks.json').pipe(
     delay(500),
     map(response => {
       const processedTasks = response.tasks.map(task => ({

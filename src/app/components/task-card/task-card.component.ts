@@ -2,11 +2,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-task-card',
   standalone: true,
-  imports: [CommonModule, CdkDrag],
+  imports: [CommonModule, CdkDrag, DragDropModule],
   templateUrl: 'task-card.component.html',
   styleUrls: ['./task-card.component.scss']
 })

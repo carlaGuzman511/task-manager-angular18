@@ -1,3 +1,7 @@
+![alt text](images/image.png)
+![alt text](images/image-1.png)
+
+
 # Requerimiento de Práctica: Task Manager Dashboard
 
 ## Contexto
