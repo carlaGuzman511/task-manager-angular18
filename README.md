@@ -1,28 +1,100 @@
-# TaskManager
+# Requerimiento de Práctica: Task Manager Dashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+## Contexto
+Crear un dashboard de gestión de tareas tipo Kanban con funcionalidad de drag & drop, utilizando las nuevas características de Angular 18.
 
-## Development server
+## Objetivos de Aprendizaje
+- Implementar Signals para manejo de estado reactivo
+- Utilizar RxJS para operaciones asíncronas y flujos de datos
+- Aplicar CDK Drag & Drop
+- Componentes standalone
+- Nueva sintaxis de control flow (@for, @if)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## 📝 Requerimientos Funcionales
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 1. Dashboard Principal (40 puntos)
+Crear un componente `DashboardComponent` que muestre:
 
-## Build
+#### Panel de Estadísticas (15 puntos)
+- Total de tareas
+- Tareas en progreso
+- Tareas completadas
+- Tareas vencidas (overdue)
+- Las estadísticas deben actualizarse automáticamente usando `computed signals`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+#### Board Kanban (25 puntos)
+- 4 columnas: "To Do", "In Progress", "Review", "Done"
+- Cada columna muestra el contador de tareas
+- Implementar drag & drop entre columnas usando `@angular/cdk/drag-drop`
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 2. Servicio de Tareas (30 puntos)
 
-## Running end-to-end tests
+Crear `TaskService` que maneje:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```typescript
+// Estructura de datos requerida
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  status: 'todo' | 'in-progress' | 'review' | 'done';
+  priority: 'low' | 'medium' | 'high';
+  dueDate: Date;
+  createdAt: Date;
+}
+```
 
-## Further help
+#### Implementación requerida:
+- ✅ Usar `signal<Task[]>` para almacenar las tareas
+- ✅ Crear `computed signals` para filtrar tareas por estado:
+  - `todoTasks()`
+  - `inProgressTasks()`
+  - `reviewTasks()`
+  - `doneTasks()`
+- ✅ Crear `computed signal` para estadísticas generales
+- ✅ Método para actualizar estado de tarea
+- ✅ Método para crear nueva tarea
+- 🎁 **Bonus:** Usar RxJS para simular API call con delay
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# task-manager-angular18
+---
+
+### 3. Componente Task Card (20 puntos)
+
+Crear `TaskCardComponent` que:
+- Reciba la tarea como `@Input()`
+- Emita eventos con `@Output()` para:
+  - Click en la tarjeta
+  - Cambio de estado (toggle done)
+- Muestre prioridad con código de colores
+- Muestre fecha de vencimiento
+
+---
+
+### 4. Funcionalidad de Búsqueda - Bonus (10 puntos)
+
+Implementar búsqueda de tareas usando:
+- `signal` para el término de búsqueda
+- `computed signal` o RxJS operator para filtrar tareas
+- Debounce de 300ms usando RxJS
+
+---
+
+## ✨ Mejoras Adicionales (Opcional)
+
+Si terminas antes del tiempo estimado, considera agregar:
+
+- [ ] Persistencia en localStorage
+- [ ] Animaciones para drag & drop
+- [ ] Filtros por prioridad
+- [ ] Ordenamiento de tareas
+- [ ] Edición inline de tareas
+- [ ] Modo oscuro/claro
+- [ ] Tests unitarios con Jasmine/Jest
+
+---
+
+**¡Buena suerte! 🚀**

@@ -7,8 +7,7 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
   selector: 'app-task-card',
   standalone: true,
   imports: [CommonModule, CdkDrag],
-  template: `
-  `,
+  templateUrl: 'task-card.component.html',
   styleUrls: ['./task-card.component.scss']
 })
 export class TaskCardComponent {
